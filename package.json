@@ -1,9 +1,19 @@
 {
-    "version": "0.0.1",
-    "name": "cordova-plugin-coap",
+    "bundleDependencies": false,
     "cordova_name": "Coap",
-    "platforms": [
-        "android",
-        "ios"
-    ]
+    "deprecated": false,
+    "description": "(ps: Just Start it, and can done my job. If you would like to use it, please let me know it.)",
+    "name": "cordova-plugin-coap",
+    "cordova": {
+        "id": "coap",
+        "platforms": [
+            "android",
+            "ios"
+        ]
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Tanganelli/cordova-plugin-coap.git"
+    },
+    "version": "0.0.1"
 }

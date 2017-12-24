@@ -7,6 +7,9 @@ module.exports = {
     post: function (name, options, successCallback, errorCallback) {
         cordova.exec(successCallback, errorCallback, "Coap", "post", [name, options]);
     },
+    put: function (name, options, successCallback, errorCallback) {
+            cordova.exec(successCallback, errorCallback, "Coap", "put", [name, options]);
+    },
     test: function (successCallback, errorCallback) {
         cordova.exec(successCallback, errorCallback, "Coap", "test");
     }

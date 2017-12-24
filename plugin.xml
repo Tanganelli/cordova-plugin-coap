@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
-        id="cordova-plugin-coap"
-        version="0.0.1">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    id="cordova-plugin-coap"
+    version="0.0.1">
 
   <name>Coap</name>
 
@@ -12,7 +13,7 @@
   <asset src="www/coap.js" target="js/coap.js"/>
 
   <js-module src="www/coap.js" name="coap">
-    <clobbers target="coap" />
+    <clobbers target="window.coap" />
   </js-module>
 
   <platform name="android">
@@ -52,10 +53,6 @@
     <source-file src="src/ios/SCServer.swift"/>
 
     <source-file src="src/ios/Coap.swift"/>
-  </platform>
-
-  <platform name="wp7">
-    <source-file src="src/wp7/Hello.cs"/>
   </platform>
 
 </plugin>

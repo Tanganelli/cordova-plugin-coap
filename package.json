@@ -4,13 +4,6 @@
     "cordova_name": "Coap",
     "platforms": [
         "android",
-        "ios",
-        "wp7"
-    ],
-    "engines": [
-        {
-            "name": "cordova",
-            "version": ">=3.4.0"
-        }
+        "ios"
     ]
 }

@@ -48,6 +48,24 @@ public class Coap extends CordovaPlugin {
                 callbackContext.error("Exception");
                 return false;
             }
+        } else if(action.equals("put")) {
+            Log.d("Coap ", "\n test for put");
+
+            try {
+                URI uri = new URI(data.getString(0));
+                CoapClient mCoapClient = new CoapClient(uri);
+                CoapResponse response = mCoapClient.put(data.getString(1), 0);
+                callbackContext.success(response.getResponseText());
+                return true;
+            } catch (URISyntaxException e) {
+                Log.e("Coap", "URISyntaxException");
+                callbackContext.error("URISyntaxException");
+                return false;
+            } catch (Exception e) {
+                Log.e("Coap", "Exception");
+                callbackContext.error("Exception");
+                return false;
+            }
         } else if (action.equals("test")) {
             Log.d("Coap ", "\n test for get");
 

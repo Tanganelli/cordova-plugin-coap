@@ -62,6 +62,7 @@ public class Coap extends CordovaPlugin {
                 PluginResult result = new PluginResult(PluginResult.Status.NO_RESULT);
                 result.setKeepCallback(true);
                 callbackContext.sendPluginResult(result);
+                return true;
             } catch (URISyntaxException e) {
                 Log.e("Coap", "URISyntaxException");
                 callbackContext.error("URISyntaxException");

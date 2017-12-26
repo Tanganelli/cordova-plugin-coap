@@ -2,6 +2,7 @@ package com.phodal.plugin;
 
 import org.apache.cordova.*;
 import org.eclipse.californium.core.CoapClient;
+import org.eclipse.californium.core.CoapHandler;
 import org.eclipse.californium.core.CoapResponse;
 import org.eclipse.californium.core.coap.MediaTypeRegistry;
 import org.json.JSONArray;
@@ -13,6 +14,21 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 public class Coap extends CordovaPlugin {
+
+
+    private class AsyncHandler implements CoapHandler {
+        private CallbackContext callbackContext = null;
+        public AsyncHandler(CallbackContext callbackContext){
+            this.callbackContext = callbackContext;
+        }
+        @Override public void onLoad(CoapResponse response) {
+            callbackContext.success(response.getResponseText());
+        }
+
+        @Override public void onError() {
+            callbackContext.error("No Response");
+        }
+    }
     @Override
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
         super.initialize(cordova, webView);
@@ -21,6 +37,7 @@ public class Coap extends CordovaPlugin {
 
     @Override
     public boolean execute(String action, JSONArray data, CallbackContext callbackContext) throws JSONException {
+
         if (action.equals("get")) {
             Log.d("Coap ", "\n test for get");
 
@@ -33,12 +50,11 @@ public class Coap extends CordovaPlugin {
                     mediatype = -1;
                 URI uri = new URI(data.getString(0));
                 CoapClient mCoapClient = new CoapClient(uri);
-                CoapResponse response = null;
+                AsyncHandler my_handler = new AsyncHandler(callbackContext);
                 if(mediatype!=-1)
-                    response = mCoapClient.get(mediatype);
+                    mCoapClient.get(my_handler, mediatype);
                 else
-                    response = mCoapClient.get();
-                callbackContext.success(response.getResponseText());
+                    mCoapClient.get(my_handler);
                 return true;
             } catch (URISyntaxException e) {
                 Log.e("Coap", "URISyntaxException");

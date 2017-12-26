@@ -142,6 +142,5 @@ public class Coap extends CordovaPlugin {
         } else{
             return false;
         }
-        return false;
     }
 }

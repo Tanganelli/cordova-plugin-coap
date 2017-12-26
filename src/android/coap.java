@@ -13,6 +13,10 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 public class Coap extends CordovaPlugin {
+    @Override
+    public void initialize(CordovaInterface cordova, CordovaWebView webView) {
+        super.initialize(cordova, webView);
+    }
     URI uri;
 
     @Override

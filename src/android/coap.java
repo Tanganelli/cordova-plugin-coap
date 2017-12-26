@@ -22,11 +22,15 @@ public class Coap extends CordovaPlugin {
             this.callbackContext = callbackContext;
         }
         @Override public void onLoad(CoapResponse response) {
-            callbackContext.success(response.getResponseText());
+            PluginResult result = new PluginResult(PluginResult.Status.OK, response.getResponseText());
+            result.setKeepCallback(false);
+            callbackContext.sendPluginResult(result);
         }
 
         @Override public void onError() {
-            callbackContext.error("No Response");
+            PluginResult result = new PluginResult(PluginResult.Status.ERROR, "No response");
+            result.setKeepCallback(false);
+            callbackContext.sendPluginResult(result);
         }
     }
     @Override
@@ -55,7 +59,9 @@ public class Coap extends CordovaPlugin {
                     mCoapClient.get(my_handler, mediatype);
                 else
                     mCoapClient.get(my_handler);
-                return true;
+                PluginResult result = new PluginResult(PluginResult.Status.NO_RESULT);
+                result.setKeepCallback(true);
+                callbackContext.sendPluginResult(result);
             } catch (URISyntaxException e) {
                 Log.e("Coap", "URISyntaxException");
                 callbackContext.error("URISyntaxException");
@@ -132,8 +138,9 @@ public class Coap extends CordovaPlugin {
                 callbackContext.error("URISyntaxException");
                 return false;
             }
-        } else {
+        } else{
             return false;
         }
+        return false;
     }
 }

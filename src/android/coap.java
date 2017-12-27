@@ -15,24 +15,7 @@ import java.net.URISyntaxException;
 
 public class Coap extends CordovaPlugin {
 
-
-    private class AsyncHandler implements CoapHandler {
-        private CallbackContext callbackContext = null;
-        public AsyncHandler(CallbackContext callbackContext){
-            this.callbackContext = callbackContext;
-        }
-        @Override public void onLoad(CoapResponse response) {
-            PluginResult result = new PluginResult(PluginResult.Status.OK, response.getResponseText());
-            result.setKeepCallback(false);
-            callbackContext.sendPluginResult(result);
-        }
-
-        @Override public void onError() {
-            PluginResult result = new PluginResult(PluginResult.Status.ERROR, "No response");
-            result.setKeepCallback(false);
-            callbackContext.sendPluginResult(result);
-        }
-    }
+    private static int WAIT_MILLIS = 10000;
     @Override
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
         super.initialize(cordova, webView);
@@ -54,15 +37,20 @@ public class Coap extends CordovaPlugin {
                     mediatype = -1;
                 URI uri = new URI(data.getString(0));
                 CoapClient mCoapClient = new CoapClient(uri);
-                AsyncHandler my_handler = new AsyncHandler(callbackContext);
+                mCoapClient.setTimeout(WAIT_MILLIS);
+                CoapResponse response = null;
                 if(mediatype!=-1)
-                    mCoapClient.get(my_handler, mediatype);
+                    response = mCoapClient.get(mediatype);
                 else
-                    mCoapClient.get(my_handler);
-                PluginResult result = new PluginResult(PluginResult.Status.NO_RESULT);
-                result.setKeepCallback(true);
-                //callbackContext.sendPluginResult(result);
-                return true;
+                    response = mCoapClient.get();
+                if(response!=null){
+                    callbackContext.success(response.getResponseText());
+                    return true;
+                }
+                else{
+                    callbackContext.error("No response.");
+                    return false;
+                }
             } catch (URISyntaxException e) {
                 Log.e("Coap", "URISyntaxException");
                 callbackContext.error("URISyntaxException");
